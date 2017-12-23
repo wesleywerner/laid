@@ -10,11 +10,11 @@ Begin by creating an empty directory where your VM will live and cd into it.
 
 * create a new disk:
 
-    qemu-img create love-appimage.img 4G
+    qemu-img create laid-x86_64.img 4G
 
 * boot the debian ISO and carry out the installation:
 
-    qemu-system-x86_64 -enable-kvm -cdrom debian-8.10.0-amd64-netinst.iso -boot d -m 512 -hda love-appimage.img
+    qemu-system-x86_64 -enable-kvm -cdrom debian-8.10.0-amd64-netinst.iso -boot d -m 512 -hda laid-x86_64.img
 
 Observe these points during the install:
 
@@ -23,7 +23,7 @@ Observe these points during the install:
 
 When the installation is complete, ensure the VM is powered off. Power it back on without the ISO, and add port forwarding for SSH access:
 
-    qemu-system-x86_64 -enable-kvm -m 512 -hda love-appimage.img -redir tcp:2222::22
+    qemu-system-x86_64 -enable-kvm -m 512 -hda laid-x86_64.img -redir tcp:2222::22
 
 * In this case we forward the host port 2222 to the guest port 22.
 * In QEmu this is the "-redir tcp:2222::22" parameter, also given under the network settings in QtEmu.
@@ -34,18 +34,20 @@ When the installation is complete, ensure the VM is powered off. Power it back o
 
 * enable root login for ssh:
 
-    vi /etc/ssh/sshd_config # change the option to read: PermitRootLogin yes
+    vi /etc/ssh/sshd_config
+
+change the option to read: `PermitRootLogin yes`
+
     /etc/init.d/ssh restart
 
-Open a new terminal on the host, we can now login remotely and enjoy
-the benefits of pasting the rest of the commands!
+Open a new terminal on the host, we can now login remotely and enjoy the benefits of pasting the rest of the commands!
 
     ssh -p 2222 root@localhost
 
-I encourage you to add a entry (on your host) to `~/.ssh/config` to smooth the process. Also adding public key authentication removes the password prompt (beyond the scope of this document).
+I encourage you to add an entry to `~/.ssh/config` to smooth the process. Also adding public key authentication removes the password prompt (which is beyond the scope of this document).
 
-    Host appimage
+    Host laid64
         HostName localhost
         Port 2222
         User root
-        IdentityFile ~/.ssh/id_rsa_appimage
+        IdentityFile ~/.ssh/id_rsa_laid64
