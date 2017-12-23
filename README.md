@@ -10,14 +10,11 @@ LAID is an acronym for Löve AppImage builDer.
 
 Set up happens once.
 
-1. [vm-setup.md](vm-setup.md) details creating a new VM in QEmu. You can adapt this guide to virtual box too.
-1. boot your VM
+1. Follow [vm-setup.md](vm-setup.md) to create a new VM in QEmu. You can adapt this guide to virtual box too.
+1. boot your VM using [run.sh](run.sh) as a template.
+1. copy the package script:
 
-        qemu-system-x86_64 -enable-kvm -m 512 -hda laid-x86_64.img -redir tcp:2222::22
-
-1. copy package script:
-
-        scp laid-0.10.2-x86_64-package.sh laid64:package
+        scp laid-0.10.2-package.sh laid64:package
         ssh laid64 "chmod +x package"
 
 1. run the setup script:
