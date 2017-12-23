@@ -4,7 +4,6 @@
 #
 # SCRIPT VERSION 1
 # LOVE VERSION 0.10.2
-# ARCH 64
 #
 # This script gets installed by the setup script as "package".
 # To package your game you must copy these files to the VM:
@@ -18,8 +17,6 @@
 # scp game.love myapp.png appimage:
 # ssh appimage
 # ./package "You Game Name"
-#
-#
 
 if [ -z $BUILDPATH ];
 then
@@ -50,7 +47,7 @@ echo "creating $BUILDIR..."
 mkdir -p $BUILDIR
 cp -r $BUILDPATH/love-portable/portable/rootfs/* $BUILDIR/
 cd $BUILDIR
-cp $BUILDPATH/tools/AppRun-x86_64 ./AppRun
+cp $BUILDPATH/tools/AppRun ./AppRun
 chmod +x AppRun
 
 echo "copying game.love"
@@ -74,7 +71,7 @@ chmod +x myapp
 
 echo "building AppImage..."
 cd $BUILDPATH
-$BUILDPATH/tools/./appimagetool-x86_64.AppImage $BUILDIR
+$BUILDPATH/tools/./appimagetool.AppImage $BUILDIR
 
 echo -e "\nPackaging complete:"
 ls -lh *.AppImage
