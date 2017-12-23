@@ -93,8 +93,6 @@ if [ ! -e $BUILDPATH/love-portable/portable.tar.gz ];
 then
   mkdir -p $BUILDPATH/love-portable
   cd $BUILDPATH/love-portable
-  #$BUILDPATH/tools/./care-x86_64 -o portable.tar.gz love 2>&1 | tee -a log.txt
-  #$BUILDPATH/tools/./care-x86_64 -x portable.tar.gz 2>&1 | tee -a log.txt
   $BUILDPATH/tools/./care -o portable.tar.gz love 2>&1 | tee -a $BUILDPATH/log.txt
   $BUILDPATH/tools/./care -x portable.tar.gz 2>&1 | tee -a $BUILDPATH/log.txt
   echo "converting binaries to use relative paths..."
