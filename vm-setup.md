@@ -41,14 +41,19 @@ When the installation is complete, ensure the VM is powered off. Power it back o
         qemu-system-x86_64 -enable-kvm -m 512 -hda laid-x86_64.img -redir tcp:2222::22
 
         # 32-bit
-        qemu-system-i386 -enable-kvm -m 512 -hda laid-x86.img -redir tcp:2222::22
+        qemu-system-i386 -enable-kvm -m 512 -hda laid-x86.img -redir tcp:3333::22
 
-* In this case we forward the host port 2222 to the guest port 22.
-* In QEmu this is the "-redir tcp:2222::22" parameter, also given under the network settings in QtEmu.
+* We forward the host port 2222 to the guest port 22.
+* In QEmu this is the "-redir" parameter.
 * In Virtual Box this is done under the machine network settings, use NAT and find "port forward" under Advanced.
+* The 32-bit version forwards port 3333, this is to prevent your ssh known_hosts from clashing.
 * login as root and install SSH server and bash completion:
 
+        # 64-bit
         ssh -p 2222 root@localhost
+
+        # 32-bit
+        ssh -p 3333 root@localhost
 
         # now inside the VM:
         apt-get install bash-completion openssh-server
