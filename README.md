@@ -1,23 +1,32 @@
 # LAID
 
-LAID is a collection of bash scripts to set up a build server for packaging AppImages to run LÖVE games.
+LAID is a collection of scripts for packaging your L&Ouml;VE game into portable [AppImages](https://appimage.org/).
 
-The build server runs Debian Jessie, it has SSH access and runs in snapshot mode so that each boot gives a clean environment.
+_AppImage is a format for packaging applications in a way that allows them to run on a variety of different GNU / Linux systems_
 
-LAID is an acronym for Löve AppImage builDer.
+* Runs on many distributions (including Ubuntu, Fedora, openSUSE, CentOS, elementaryOS, Linux Mint, and others)
+* One app = one file = super simple for users: just download one AppImage file, make it executable, and run
+* No unpacking or installation necessary
+* No root needed
+* No system libraries changed
+* Works out of the box, no installation of runtimes needed
+
+The build server runs Debian Jessie in a virtual machine, it has SSH access and runs in snapshot mode so that each boot gives a clean environment. *These scripts work regardless of your host OS.*
+
+LAID is an acronym for L&ouml;ve AppImage builDer.
 
 ## setting up
 
-Set up happens once.
+Set-up happens once.
 
-1. Follow [vm-setup.md](vm-setup.md) to create a new VM in QEmu. You can adapt this guide to virtual box too.
-1. boot your VM using [run.sh](run.sh) as a template.
-1. copy the package script:
+1. Follow [vm-setup.md](vm-setup.md) to create a new VM in QEmu. You can adapt this guide to virtualbox without any effort.
+1. boot your VM (use [run.sh](run.sh) as a template if you chose QEmu). The important thing here is we port-forward host port `2222` to guest `22`, this allows us to ssh and copy files to/from the VM.
+1. copy the package script to your VM:
 
         scp laid-0.10.2-package.sh laid64:package
         ssh laid64 "chmod +x package"
 
-1. run the setup script:
+1. copy and run the setup script on your VM:
 
         scp laid-0.10.2-x86_64-setup.sh laid64:setup
         ssh laid64 "chmod +x setup"
