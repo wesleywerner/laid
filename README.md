@@ -20,7 +20,7 @@ LAID is an acronym for L&ouml;ve AppImage builDer.
 Set-up happens once.
 
 1. Follow [vm-setup.md](vm-setup.md) to create a new VM in QEmu. You can adapt this guide to virtualbox without any effort.
-1. boot your VM (use [run.sh](run.sh) as a template if you chose QEmu). The important thing here is we port-forward host port `2222` to guest `22`, this allows us to ssh and copy files to/from the VM.
+1. boot your VM. The important thing here is we port-forward host port `2222` to guest `22`, this allows us to ssh and copy files to/from the VM.
 1. copy the package script to your VM:
 
         scp laid-0.10.2-package.sh laid64:package
@@ -37,20 +37,28 @@ The setup downloads build dependencies, love source and AppImage tools. This tak
 
 ## packaging your game
 
-Boot the VM with the `-snapshot -curses` options, the snapshot mode discards any changes on the VM, keeping your environment clean. The file [run.sh](run.sh) implements this, edit and use it as you need.
+Boot the VM with the `-snapshot` option, this discards any changes when powered off, keeping your environment clean.
 
-    qemu-system-x86_64 -enable-kvm -m 512 -hda laid-x86_64.img -redir tcp:2222::22 -snapshot -curses
+    qemu-system-x86_64 -enable-kvm -m 512 -hda laid-x86_64.img -redir tcp:2222::22 -snapshot
 
 Copy these files to the VM:
 
 * game.love
-* myapp.png (a 256x256 image)
+* myapp.png (256x256 icon)
+* myapp.desktop
+
+        [Desktop Entry]
+        Name=My Game
+        Exec=myapp
+        Icon=myapp
+        Type=Application
+        Categories=Game;
 
 Assuming you have a ssh host config named "laid64" as detailed in vm-setup:
 
     scp game.love myapp.desktop myapp.png laid64:
     ssh laid64
-    ./package "My App"
+    ./package "My Game"
 
 You can now copy the AppImage out
 
@@ -60,7 +68,7 @@ If you want to package without interactive login, source bash_profile so the bui
 
     ssh laid64 'source .bash_profile; ./package "My App"'
 
-The file [build.sh](build.sh) implements this, copy and change as you need.
+The script [build.sh](build.sh) implements a fully automated build pipeline, taking care to boot, package and power-down both 64-bit and 32-bit AppImages for you game.
 
 **note** The process calls `care` which tries to execute love, resulting in a "XDG_RUNTIME_DIR not set" error, since we are not running any xserver. This is fine and care still succeeds in capturing love as a portable binary.
 
