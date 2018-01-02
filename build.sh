@@ -44,6 +44,9 @@ VM_32_DISK=/media/data/virtualmachines/love-appimage/laid-x86.img
 
 # SCRIPT STARTS HERE
 
+# grab the working directory
+SCRIPTDIR=$(pwd)
+
 # QEmu commands
 QEMU_64=qemu-system-x86_64
 QEMU_32=qemu-system-i386
@@ -80,9 +83,23 @@ function bootup {
 
 function makezip {
 
+    # remove previous file
+    if [ -e $SCRIPTDIR/game.love ];
+    then
+        echo "Removing old game.love"
+        rm $SCRIPTDIR/game.love
+    fi
+
     # zip the game files
     pushd $SRCDIR
-    zip -r ../game.love .
+
+    if [ ! $? -eq 0 ];
+    then
+        echo "Failed changing to directory $SRCDIR."
+        exit 255
+    fi
+
+    zip -r $SCRIPTDIR/game.love .
     popd
 
 }
