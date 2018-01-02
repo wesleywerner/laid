@@ -35,7 +35,7 @@
 MYAPP="Fu App"
 
 # game src directory (relative to this script)
-SRCDIR=src
+SRCDIR=.
 
 # path to our AppImage VM disks
 VM_64_DISK=/media/data/virtualmachines/love-appimage/laid-x86_64.img

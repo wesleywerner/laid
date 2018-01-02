@@ -74,9 +74,16 @@ If you want to package without interactive login, source bash_profile so the bui
 
 Alternative to packaging by hand, you can use the provided script [build.sh](build.sh). It implements a fully automated build pipeline, taking care to boot, package and power-down both 64-bit and 32-bit AppImages for you game.
 
-To use the build script, place `build.sh` in your game directory along with `myapp.png` and `myapp.desktop` as described above.
+To use the build script, place `build.sh` in the root of your game source directory, along with `myapp.png` and `myapp.desktop` as described above.
 
-By default the script assumes your game source lives in a `src` subdirectory. You can change this by editing the `SRCDIR` environment variable in `build.sh`.
+        .
+        |-- build.sh
+        |-- conf.lua
+        |-- main.lua
+        |-- myapp.desktop
+        |-- myapp.png
+
+If the root of your game sources lives under a `src` (or other) sub-directory, change the `SRCDIR` environment variable in `build.sh` accordingly.
 
 **note** The process calls `care` which tries to execute love, resulting in a "XDG_RUNTIME_DIR not set" error, since we are not running any xserver. This is fine and care still succeeds in capturing love as a portable binary.
 
