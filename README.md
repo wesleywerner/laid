@@ -37,6 +37,8 @@ The setup downloads build dependencies, love source and AppImage tools. This tak
 
 ## packaging your game
 
+### by hand
+
 Boot the VM with the `-snapshot` option, this discards any changes when powered off, keeping your environment clean.
 
     qemu-system-x86_64 -enable-kvm -m 512 -hda laid-x86_64.img -redir tcp:2222::22 -snapshot
@@ -68,7 +70,13 @@ If you want to package without interactive login, source bash_profile so the bui
 
     ssh laid64 'source .bash_profile; ./package "My App"'
 
-The script [build.sh](build.sh) implements a fully automated build pipeline, taking care to boot, package and power-down both 64-bit and 32-bit AppImages for you game.
+### build script
+
+Alternative to packaging by hand, you can use the provided script [build.sh](build.sh). It implements a fully automated build pipeline, taking care to boot, package and power-down both 64-bit and 32-bit AppImages for you game.
+
+To use the build script, place `build.sh` in your game directory along with `myapp.png` and `myapp.desktop` as described above.
+
+By default the script assumes your game source lives in a `src` subdirectory. You can change this by editing the `SRCDIR` environment variable in `build.sh`.
 
 **note** The process calls `care` which tries to execute love, resulting in a "XDG_RUNTIME_DIR not set" error, since we are not running any xserver. This is fine and care still succeeds in capturing love as a portable binary.
 
